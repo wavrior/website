@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Human vs Hamster — Full GFX Rebuild · Alex Kielesinska</title>
+<meta name="description" content="Case study: rebuilding the entire Human vs Hamster graphics package — 2D and 3D — from scratch for localisation, with no source files supplied.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;600;700&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#101418;--ink-2:#171c22;--line:#2a313a;--bone:#eceae4;--grey:#9aa3ad;
+  --amber:#e8a33d;--cyan:#69c4d4;--red:#e6483d;
+  --disp:"Big Shoulders Display", Impact, sans-serif;
+  --body:"Archivo", "Helvetica Neue", Arial, sans-serif;
+  --mono:"IBM Plex Mono", "Courier New", monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+body{background:var(--ink);color:var(--bone);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+a:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+.mono{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase}
+.label{color:var(--cyan)}
+.wrap{max-width:920px;margin:0 auto;padding:0 32px}
+.todo{display:inline-flex;align-items:flex-start;gap:8px;border:1px dashed var(--amber);color:var(--amber);font-family:var(--mono);font-size:.72rem;line-height:1.5;padding:8px 12px;margin-top:14px;max-width:100%}
+.todo::before{content:"TO DO";flex:none;background:var(--amber);color:#1a1408;font-weight:600;padding:1px 6px}
+.slate{position:relative;background:repeating-linear-gradient(-45deg,var(--ink-2),var(--ink-2) 14px,#1b212a 14px,#1b212a 28px);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:24px;color:var(--grey)}
+.slate .mono{color:var(--grey)}
+.slate .slate-title{color:var(--bone);font-family:var(--mono);font-size:.8rem;letter-spacing:.14em}
+.slate::after{content:"";position:absolute;inset:10px;border:1px dashed #353d48;pointer-events:none}
+
+header{position:sticky;top:0;z-index:50;background:rgba(16,20,24,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav{max-width:1180px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:16px 32px;gap:16px}
+.nav .wordmark{font-family:var(--disp);font-size:1.15rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.nav .back{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--grey)}
+.nav .back:hover{color:var(--bone)}
+
+.case-hero{border-bottom:1px solid var(--line);padding:80px 0 56px}
+.case-hero .kicker{color:var(--amber);margin-bottom:16px}
+.case-hero h1{font-family:var(--disp);font-weight:700;text-transform:uppercase;font-size:clamp(2.4rem,6vw,4.4rem);line-height:.98;letter-spacing:.01em}
+.case-hero .meta{color:var(--grey);margin-top:20px}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);margin-top:40px}
+.facts div{padding:16px 18px;border-right:1px solid var(--line)}
+.facts div:last-child{border-right:0}
+.facts .mono{color:var(--cyan);display:block;margin-bottom:6px}
+.facts span.val{font-size:.95rem}
+
+section{padding:56px 0;border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:0}
+section h2{font-family:var(--mono);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin-bottom:20px}
+section p{color:var(--grey);max-width:640px;margin-bottom:16px}
+section p strong{color:var(--bone);font-weight:600}
+section p.pull{font-size:1.25rem;line-height:1.6;color:var(--bone);border-left:2px solid var(--amber);padding-left:22px;max-width:680px}
+.media{margin:28px 0 8px}
+.media .slate{aspect-ratio:16/9}
+.media-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:28px 0 8px}
+.media-grid .slate{aspect-ratio:16/10}
+.credit{font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;color:var(--grey);border-top:1px solid var(--line);padding-top:22px;line-height:1.8}
+.next{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:48px 0}
+.next a{font-family:var(--mono);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);border-bottom:1px solid var(--amber);padding-bottom:3px}
+.next a:hover{color:var(--bone);border-color:var(--bone)}
+
+.bars{display:flex;height:14px}
+.bars div{flex:1}
+footer .inner{max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:26px 32px;color:var(--grey);font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase}
+
+@media (max-width:700px){
+  .wrap{padding:0 20px}
+  .nav{padding:14px 20px}
+  .facts{grid-template-columns:1fr 1fr}
+  .facts div:nth-child(2){border-right:0}
+  .facts div:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .media-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a class="wordmark" href="alexkiele-portfolio-blueprint.html">Alex Kielesinska</a>
+    <a class="back" href="alexkiele-portfolio-blueprint.html#work">← Back to work</a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="case-hero">
+    <p class="mono kicker">Warner Bros. Discovery · Localisation · [YEAR]</p>
+    <h1>Human vs Hamster<br>Full GFX Rebuild</h1>
+    <p class="mono meta">GFX recreation &amp; localisation templating · After Effects · [C4D / 3D tool] · No source files supplied</p>
+    <div class="facts">
+      <div><span class="mono">Role</span><span class="val">GFX recreation &amp; templating</span></div>
+      <div><span class="mono">Scope</span><span class="val">[X] episodes, 2D + 3D</span></div>
+      <div><span class="mono">Language</span><span class="val">[French — confirm]</span></div>
+      <div><span class="mono">Source files</span><span class="val">None</span></div>
+    </div>
+  </div>
+
+  <section>
+    <h2>Overview</h2>
+    <p class="pull">Localising a series is straightforward when you have the project files. We didn't have any.</p>
+    <p>To deliver the [French] version of Human vs Hamster, I rebuilt the show's entire graphics package — 2D and 3D — from scratch, using only the English episodes as reference.</p>
+    <div class="media"><div class="slate"><span class="slate-title">HERO MEDIA · SIDE BY SIDE</span><span class="mono">EN original vs FR rebuild — same frame, full width</span></div></div>
+    <div class="todo">This side-by-side is the money shot. Pick the most graphics-heavy frame you have — if a viewer can't tell which side is the original, the case study has done its job.</div>
+  </section>
+
+  <section>
+    <h2>The brief</h2>
+    <p>[X episodes] of an unscripted competition series, heavy on graphics: [scoreboards, leaderboards, name straps, transitions — list the real elements]. Every element needed to exist in [French], match the original frame-for-frame, and be efficient enough to version across a full series run.</p>
+  </section>
+
+  <section>
+    <h2>The build</h2>
+    <p>With no project files, every asset started as detective work — pausing frames, matching typefaces, reverse-engineering the timing and easing, and rebuilding the 3D elements by eye: [modelling / materials / lighting] matched from flat renders.</p>
+    <p>Rather than recreating graphics episode by episode, I built everything as templates [using Essential Properties — confirm if true for this build], so each new episode became <strong>a versioning job, not a rebuild</strong>.</p>
+    <div class="media-grid">
+      <div class="slate"><span class="slate-title">FRAME · 3D REBUILD</span><span class="mono">Reference render vs my version</span></div>
+      <div class="slate"><span class="slate-title">FRAME · TEMPLATE STRUCTURE</span><span class="mono">One build, [X] episodes versioned</span></div>
+    </div>
+    <div class="todo">If you can record 15–20s of screen capture scrubbing through the template (changing a name strap, swapping a score), embed it here — motion sells templating far better than stills.</div>
+  </section>
+
+  <section>
+    <h2>The proof</h2>
+    <p>The test was simple: cut the rebuilt graphics against the originals and see if anyone could tell.</p>
+    <div class="media"><div class="slate"><span class="slate-title">MEDIA · COMPARISON REEL</span><span class="mono">Short cut — original vs rebuild, intercut</span></div></div>
+  </section>
+
+  <section>
+    <h2>Credit</h2>
+    <p class="credit">Original package design: [studio / network — or "the original broadcaster's design team"].<br>My role: full GFX recreation and localisation templating at Warner Bros. Discovery.</p>
+    <div class="todo">Before publishing: clear frames with Woody, confirm the show can be named publicly in your territory, and fill every [bracket] — episode count, 3D tool, language(s), element list.</div>
+  </section>
+
+  <div class="next">
+    <a href="alexkiele-portfolio-blueprint.html#work">← All work</a>
+    <a href="case-what-am-i-eating.html">Next: What Am I Eating? →</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="bars" aria-hidden="true">
+    <div style="background:#b0b0b0"></div><div style="background:#b0b04a"></div><div style="background:#4ab0b0"></div><div style="background:#4ab04a"></div><div style="background:#b04ab0"></div><div style="background:#b04a4a"></div><div style="background:#4a4ab0"></div>
+  </div>
+  <div class="inner">
+    <span>© Alex Kielesinska 2026</span>
+    <span>Broadcast GFX · Motion · Toolkits · XR · London</span>
+  </div>
+</footer>
+
+</body>
+</html>

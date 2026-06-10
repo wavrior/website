@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Am I Eating? with Zooey Deschanel — GFX Localisation · Alex Kielesinska</title>
+<meta name="description" content="Case study: localising a graphics-dense series from a partial package — auditing supplied files, rebuilding what wasn't usable, and restructuring it into clean, versionable templates.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;600;700&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#101418;--ink-2:#171c22;--line:#2a313a;--bone:#eceae4;--grey:#9aa3ad;
+  --amber:#e8a33d;--cyan:#69c4d4;--red:#e6483d;
+  --disp:"Big Shoulders Display", Impact, sans-serif;
+  --body:"Archivo", "Helvetica Neue", Arial, sans-serif;
+  --mono:"IBM Plex Mono", "Courier New", monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+body{background:var(--ink);color:var(--bone);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+a:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+img,video{max-width:100%;display:block;border:1px solid var(--line)}
+.mono{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase}
+.wrap{max-width:920px;margin:0 auto;padding:0 32px}
+.todo{display:inline-flex;align-items:flex-start;gap:8px;border:1px dashed var(--amber);color:var(--amber);font-family:var(--mono);font-size:.72rem;line-height:1.5;padding:8px 12px;margin-top:14px;max-width:100%}
+.todo::before{content:"TO DO";flex:none;background:var(--amber);color:#1a1408;font-weight:600;padding:1px 6px}
+.slate{position:relative;background:repeating-linear-gradient(-45deg,var(--ink-2),var(--ink-2) 14px,#1b212a 14px,#1b212a 28px);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:24px;color:var(--grey)}
+.slate .mono{color:var(--grey)}
+.slate .slate-title{color:var(--bone);font-family:var(--mono);font-size:.8rem;letter-spacing:.14em}
+.slate::after{content:"";position:absolute;inset:10px;border:1px dashed #353d48;pointer-events:none}
+
+header{position:sticky;top:0;z-index:50;background:rgba(16,20,24,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav{max-width:1180px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:16px 32px;gap:16px}
+.nav .wordmark{font-family:var(--disp);font-size:1.15rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.nav .back{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--grey)}
+.nav .back:hover{color:var(--bone)}
+
+.case-hero{border-bottom:1px solid var(--line);padding:80px 0 56px}
+.case-hero .kicker{color:var(--amber);margin-bottom:16px}
+.case-hero h1{font-family:var(--disp);font-weight:700;text-transform:uppercase;font-size:clamp(2.2rem,5.4vw,3.9rem);line-height:.98;letter-spacing:.01em}
+.case-hero .meta{color:var(--grey);margin-top:20px}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);margin-top:40px}
+.facts div{padding:16px 18px;border-right:1px solid var(--line)}
+.facts div:last-child{border-right:0}
+.facts .mono{color:var(--cyan);display:block;margin-bottom:6px}
+.facts span.val{font-size:.95rem}
+
+section{padding:56px 0;border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:0}
+section h2{font-family:var(--mono);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin-bottom:20px}
+section p{color:var(--grey);max-width:640px;margin-bottom:16px}
+section p strong{color:var(--bone);font-weight:600}
+section p.pull{font-size:1.25rem;line-height:1.6;color:var(--bone);border-left:2px solid var(--amber);padding-left:22px;max-width:680px}
+.media{margin:28px 0 8px}
+.media .slate{aspect-ratio:16/9}
+.media-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:28px 0 8px}
+.media-grid .slate{aspect-ratio:16/10}
+.credit{font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;color:var(--grey);border-top:1px solid var(--line);padding-top:22px;line-height:1.8}
+.next{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:48px 0}
+.next a{font-family:var(--mono);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);border-bottom:1px solid var(--amber);padding-bottom:3px}
+.next a:hover{color:var(--bone);border-color:var(--bone)}
+
+.bars{display:flex;height:14px}
+.bars div{flex:1}
+footer .inner{max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:26px 32px;color:var(--grey);font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase}
+
+@media (max-width:700px){
+  .wrap{padding:0 20px}
+  .nav{padding:14px 20px}
+  .facts{grid-template-columns:1fr 1fr}
+  .facts div:nth-child(2){border-right:0}
+  .facts div:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .media-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a class="wordmark" href="alexkiele-portfolio-blueprint.html">Alex Kielesinska</a>
+    <a class="back" href="alexkiele-portfolio-blueprint.html#work">← Back to work</a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="case-hero">
+    <p class="mono kicker">Warner Bros. Discovery · Localisation · [YEAR]</p>
+    <h1>What Am I Eating?<br>with Zooey Deschanel</h1>
+    <p class="mono meta">GFX localisation &amp; package restructure · After Effects · Photoshop · Partial package supplied</p>
+    <div class="facts">
+      <div><span class="mono">Role</span><span class="val">GFX localisation &amp; rebuild</span></div>
+      <div><span class="mono">Scope</span><span class="val">[X] episodes, graphics-dense</span></div>
+      <div><span class="mono">Language</span><span class="val">[French — confirm]</span></div>
+      <div><span class="mono">Source files</span><span class="val">Partial — PSDs &amp; assets</span></div>
+    </div>
+  </div>
+
+  <section>
+    <h2>Overview</h2>
+    <p class="pull">Working files are only a head start if you can work with them.</p>
+    <p>Unlike most localisation jobs, this one came with a package — PSDs and graphic assets from the original production. But the show is one of the most graphics-dense I've worked on, and the supplied files weren't structured for versioning: <strong>undocumented, inconsistently built, and never intended to be opened by another team.</strong> The job became equal parts localisation, file forensics and reconstruction.</p>
+    <div class="media"><div class="slate"><span class="slate-title">HERO MEDIA · LOCALISED FRAME</span><span class="mono">Pick the busiest, most graphics-heavy frame — this show's density IS the story</span></div></div>
+    <div class="todo">Confirm the exact on-screen title and [YEAR], and check with Woody on clearance — same rules as Hamster: aired localised episodes are the easy case.</div>
+  </section>
+
+  <section>
+    <h2>The brief</h2>
+    <p>[X episodes] of a fast-cut food series built around near-constant graphics: [list the real elements — info cards, stat pop-ups, name straps, full-screen explainers, animated illustrations]. Everything needed to exist in [French], match the original's energy and timing, and turn around on a series schedule.</p>
+  </section>
+
+  <section>
+    <h2>The build</h2>
+    <p>Step one wasn't design — it was an audit. I went through the supplied package and triaged it: <strong>what could be used as-is, what could be salvaged with restructuring, and what was faster to rebuild from scratch.</strong> [PLACEHOLDER — rough split if you can estimate it: e.g. "around a third was usable, a third needed rebuilding inside the PSDs, and a third I recreated entirely."]</p>
+    <p>The salvageable files were reorganised into clean, layered documents with [editable text / consistent naming / proper folder structure], and the rebuilt elements were matched to the originals frame-by-frame — same instincts as a no-files rebuild, just applied selectively. The whole package was then restructured into templates, so localising each new episode meant versioning, not surgery.</p>
+    <div class="media-grid">
+      <div class="slate"><span class="slate-title">FRAME · BEFORE / AFTER</span><span class="mono">Supplied layer stack vs your restructured file — anonymise layer names if needed</span></div>
+      <div class="slate"><span class="slate-title">FRAME · REBUILD MATCH</span><span class="mono">Original element vs your recreated version</span></div>
+    </div>
+    <div class="todo">The before/after of a layer panel is unusually persuasive to anyone who's inherited bad files — which is every GFX lead alive. Keep the tone factual in the caption; let the screenshot do the editorialising.</div>
+  </section>
+
+  <section>
+    <h2>The result</h2>
+    <p>[PLACEHOLDER — what shipped: episodes delivered, on schedule, and the system left behind. If later episodes got faster because of your restructure, say so with numbers — "episode one took X days; by episode five it was Y."]</p>
+    <div class="media"><div class="slate"><span class="slate-title">FINAL MEDIA · MONTAGE</span><span class="mono">Quick cut of localised graphics across episodes</span></div></div>
+  </section>
+
+  <section>
+    <h2>Credit</h2>
+    <p class="credit">Original package design: [studio / network — or "the original production's design team"].<br>My role: GFX localisation, package restructure and partial rebuild at Warner Bros. Discovery.</p>
+  </section>
+
+  <div class="next">
+    <a href="case-human-vs-hamster.html">← Previous: Human vs Hamster</a>
+    <a href="case-study-template.html">Next: HBO Max Toolkit System →</a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="bars" aria-hidden="true">
+    <div style="background:#b0b0b0"></div><div style="background:#b0b04a"></div><div style="background:#4ab0b0"></div><div style="background:#4ab04a"></div><div style="background:#b04ab0"></div><div style="background:#b04a4a"></div><div style="background:#4a4ab0"></div>
+  </div>
+  <div class="inner">
+    <span>© Alex Kielesinska 2026</span>
+    <span>Broadcast GFX · Motion · Toolkits · XR · London</span>
+  </div>
+</footer>
+
+</body>
+</html>
