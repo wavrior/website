@@ -1,6 +1,12 @@
 :root{
-  --ink:#101418;--ink-2:#171c22;--line:#2a313a;--bone:#eceae4;--grey:#9aa3ad;
-  --amber:#e8a33d;--cyan:#69c4d4;--red:#e6483d;
+  --ink:#E8DDB5;          /* pearl beige — page base */
+  --ink-2:#EFE7C9;        /* raised panels */
+  --line:#CFC49C;         /* hairlines */
+  --bone:#3D4059;         /* primary text — deepened blue slate */
+  --grey:#5C6079;         /* secondary text — blue slate */
+  --amber:#54807A;        /* accent — deepened muted teal (links, to-dos) */
+  --cyan:#5F7390;         /* utility labels — deepened slate grey */
+  --red:#54807A;          /* availability dot — teal */
   --disp:"Big Shoulders Display", Impact, sans-serif;
   --body:"Archivo", "Helvetica Neue", Arial, sans-serif;
   --mono:"IBM Plex Mono", "Courier New", monospace;
@@ -15,13 +21,13 @@ img,video{max-width:100%;display:block;border:1px solid var(--line)}
 .mono{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase}
 .wrap{max-width:920px;margin:0 auto;padding:0 32px}
 .todo{display:inline-flex;align-items:flex-start;gap:8px;border:1px dashed var(--amber);color:var(--amber);font-family:var(--mono);font-size:.72rem;line-height:1.5;padding:8px 12px;margin-top:14px;max-width:100%}
-.todo::before{content:"TO DO";flex:none;background:var(--amber);color:#1a1408;font-weight:600;padding:1px 6px}
-.slate{position:relative;background:repeating-linear-gradient(-45deg,var(--ink-2),var(--ink-2) 14px,#1b212a 14px,#1b212a 28px);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:24px;color:var(--grey)}
+.todo::before{content:"TO DO";flex:none;background:var(--amber);color:#F2ECD2;font-weight:600;padding:1px 6px}
+.slate{position:relative;background:repeating-linear-gradient(-45deg,var(--ink-2),var(--ink-2) 14px,#E3D8AE 14px,#E3D8AE 28px);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:24px;color:var(--grey)}
 .slate .mono{color:var(--grey)}
 .slate .slate-title{color:var(--bone);font-family:var(--mono);font-size:.8rem;letter-spacing:.14em}
-.slate::after{content:"";position:absolute;inset:10px;border:1px dashed #353d48;pointer-events:none}
+.slate::after{content:"";position:absolute;inset:10px;border:1px dashed #C2B68C;pointer-events:none}
 
-header{position:sticky;top:0;z-index:50;background:rgba(16,20,24,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header{position:sticky;top:0;z-index:50;background:rgba(232,221,181,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 .nav{max-width:1180px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:16px 32px;gap:16px}
 .nav .wordmark{font-family:var(--disp);font-size:1.15rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
 .nav .back{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--grey)}

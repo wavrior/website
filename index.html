@@ -10,14 +10,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;600;700&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#101418;          /* broadcast ink — page base */
-  --ink-2:#171c22;        /* raised panels */
-  --line:#2a313a;         /* hairlines */
-  --bone:#eceae4;         /* primary text */
-  --grey:#9aa3ad;         /* secondary text */
-  --amber:#e8a33d;        /* signal amber — to-do notes, accents */
-  --cyan:#69c4d4;         /* timecode cyan — utility labels only */
-  --red:#e6483d;          /* record red — availability dot only */
+  --ink:#E8DDB5;          /* pearl beige — page base */
+  --ink-2:#EFE7C9;        /* raised panels */
+  --line:#CFC49C;         /* hairlines */
+  --bone:#3D4059;         /* primary text — deepened blue slate */
+  --grey:#5C6079;         /* secondary text — blue slate */
+  --amber:#54807A;        /* accent — deepened muted teal (links, to-dos) */
+  --cyan:#5F7390;         /* utility labels — deepened slate grey */
+  --red:#54807A;          /* availability dot — teal */          /* record red — availability dot only */
   --disp:"Big Shoulders Display", Impact, sans-serif;
   --body:"Archivo", "Helvetica Neue", Arial, sans-serif;
   --mono:"IBM Plex Mono", "Courier New", monospace;
@@ -41,19 +41,19 @@ img{max-width:100%;display:block}
 .section-head h2{font-family:var(--disp);font-weight:600;font-size:clamp(2rem,4vw,3rem);letter-spacing:.02em;text-transform:uppercase}
 
 /* ---------- blueprint banner ---------- */
-.blueprint-note{background:var(--amber);color:#1a1408;padding:10px 32px;font-family:var(--mono);font-size:.74rem;letter-spacing:.06em;text-align:center}
+.blueprint-note{background:#666A86;color:#E8DDB5;padding:10px 32px;font-family:var(--mono);font-size:.74rem;letter-spacing:.06em;text-align:center}
 .blueprint-note strong{font-weight:600}
 
 /* ---------- to-do chips & slates ---------- */
 .todo{display:inline-flex;align-items:flex-start;gap:8px;border:1px dashed var(--amber);color:var(--amber);font-family:var(--mono);font-size:.72rem;line-height:1.5;padding:8px 12px;margin-top:14px;max-width:100%}
-.todo::before{content:"TO DO";flex:none;background:var(--amber);color:#1a1408;font-weight:600;padding:1px 6px}
-.slate{position:relative;background:repeating-linear-gradient(-45deg,var(--ink-2),var(--ink-2) 14px,#1b212a 14px,#1b212a 28px);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:24px;color:var(--grey)}
+.todo::before{content:"TO DO";flex:none;background:var(--amber);color:#F2ECD2;font-weight:600;padding:1px 6px}
+.slate{position:relative;background:repeating-linear-gradient(-45deg,var(--ink-2),var(--ink-2) 14px,#E3D8AE 14px,#E3D8AE 28px);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:24px;color:var(--grey)}
 .slate .mono{color:var(--grey)}
 .slate .slate-title{color:var(--bone);font-family:var(--mono);font-size:.8rem;letter-spacing:.14em}
-.slate::after{content:"";position:absolute;inset:10px;border:1px dashed #353d48;pointer-events:none}
+.slate::after{content:"";position:absolute;inset:10px;border:1px dashed #C2B68C;pointer-events:none}
 
 /* ---------- header ---------- */
-header{position:sticky;top:0;z-index:50;background:rgba(16,20,24,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header{position:sticky;top:0;z-index:50;background:rgba(232,221,181,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 .nav{max-width:1180px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:16px 32px;gap:16px}
 .nav .wordmark{font-family:var(--disp);font-size:1.15rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
 .nav nav{display:flex;gap:26px;flex-wrap:wrap}
@@ -62,11 +62,11 @@ header{position:sticky;top:0;z-index:50;background:rgba(16,20,24,.92);backdrop-f
 
 /* ---------- hero (endboard) ---------- */
 .hero{position:relative;max-width:1180px;margin:48px auto 0;padding:0 32px}
-.endboard{position:relative;border:1px solid var(--line);background:linear-gradient(160deg,#131922 0%,var(--ink) 70%);padding:clamp(48px,8vw,110px) clamp(28px,6vw,90px);overflow:hidden}
-.safe{position:absolute;border:1px dashed #303945;pointer-events:none}
+.endboard{position:relative;border:1px solid var(--line);background:linear-gradient(160deg,#DDD9B9 0%,var(--ink) 70%);padding:clamp(48px,8vw,110px) clamp(28px,6vw,90px);overflow:hidden}
+.safe{position:absolute;border:1px dashed #C6BA90;pointer-events:none}
 .safe.action{inset:18px}
 .safe.title{inset:46px}
-.safe-tag{position:absolute;font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;color:#46505d;background:var(--ink);padding:0 6px}
+.safe-tag{position:absolute;font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;color:#9A8F68;background:var(--ink);padding:0 6px}
 .safe-tag.a{top:11px;left:34px}
 .safe-tag.t{top:39px;left:62px}
 .tc{position:absolute;top:18px;right:26px;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;color:var(--cyan)}
@@ -432,7 +432,7 @@ footer .inner{max-width:1180px;margin:0 auto;display:flex;justify-content:space-
 <!-- ============ FOOTER ============ -->
 <footer>
   <div class="bars" aria-hidden="true">
-    <div style="background:#b0b0b0"></div><div style="background:#b0b04a"></div><div style="background:#4ab0b0"></div><div style="background:#4ab04a"></div><div style="background:#b04ab0"></div><div style="background:#b04a4a"></div><div style="background:#4a4ab0"></div>
+    <div style="background:#666A86"></div><div style="background:#788AA3"></div><div style="background:#92B6B1"></div><div style="background:#B2C9AB"></div><div style="background:#E8DDB5;border-top:1px solid #CFC49C"></div>
   </div>
   <div class="inner">
     <span>© Alex Kielesinska 2026</span>
